@@ -57,4 +57,52 @@ public class PropertyController {
         ResponseEntity<Void> response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return response;
     }
+
+    @PatchMapping("/properties/update-title/{id}")
+    public ResponseEntity<PropertyDTO> updateTitle( @RequestBody PropertyDTO propertyDTO ,
+                                                       @PathVariable("id") Long propertyID ){
+        propertyDTO = propertyService.updateTitle(propertyDTO,propertyID);
+        ResponseEntity<PropertyDTO> response = new ResponseEntity<>(propertyDTO,HttpStatus.CREATED);
+        return response;
+    }
+
+    @PatchMapping("/properties/update-description/{id}")
+    public ResponseEntity<PropertyDTO> updateDescription( @RequestBody PropertyDTO propertyDTO ,
+                                                    @PathVariable("id") Long propertyID ){
+        propertyDTO = propertyService.updateDescription(propertyDTO,propertyID);
+        ResponseEntity<PropertyDTO> response = new ResponseEntity<>(propertyDTO,HttpStatus.CREATED);
+        return response;
+    }
+
+    @PatchMapping("/properties/update-owner-name/{id}")
+    public ResponseEntity<PropertyDTO> updateOwnerName( @RequestBody PropertyDTO propertyDTO ,
+                                                          @PathVariable("id") Long propertyID ){
+        propertyDTO = propertyService.updateOwnerName(propertyDTO,propertyID);
+        ResponseEntity<PropertyDTO> response = new ResponseEntity<>(propertyDTO,HttpStatus.CREATED);
+        return response;
+    }
+
+    @PatchMapping("/properties/update-owner-email/{id}")
+    public ResponseEntity<PropertyDTO> updateOwnerEmail( @RequestBody PropertyDTO propertyDTO ,
+                                                        @PathVariable("id") Long propertyID ){
+        propertyDTO = propertyService.updateOwnerEmail(propertyDTO,propertyID);
+        ResponseEntity<PropertyDTO> response = new ResponseEntity<>(propertyDTO,HttpStatus.CREATED);
+        return response;
+    }
+
+    @PatchMapping("/properties/update-owner-address/{id}")
+    public ResponseEntity<PropertyDTO> updateAddress( @RequestBody PropertyDTO propertyDTO ,
+                                                         @PathVariable("id") Long propertyID ){
+        propertyDTO = propertyService.updateAddress(propertyDTO,propertyID);
+        ResponseEntity<PropertyDTO> response = new ResponseEntity<>(propertyDTO,HttpStatus.CREATED);
+        return response;
+    }
+
+    @PatchMapping("/properties/update-price/{id}")
+    public ResponseEntity<PropertyDTO> updatePrice( @RequestBody PropertyDTO propertyDTO ,
+                                                      @PathVariable("id") Long propertyID ){
+        propertyDTO = propertyService.updatePrice(propertyDTO,propertyID);
+        ResponseEntity<PropertyDTO> response = new ResponseEntity<>(propertyDTO,HttpStatus.CREATED);
+        return response;
+    }
 }

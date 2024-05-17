@@ -65,4 +65,82 @@ public class PropertyServiceImpl implements PropertyService {
     public void deleteProperty(Long propertyId) {
         propertyRepository.deleteById(propertyId);
     }
+
+    @Override
+    public PropertyDTO updateTitle(PropertyDTO propertyDTO, Long propertyID) {
+        Optional<PropertyEntity> propertyEntity = propertyRepository.findById(propertyID);
+        if(propertyEntity.isPresent()){
+            PropertyEntity pe = propertyEntity.get();
+            pe.setTitle(propertyDTO.getTitle());
+            propertyRepository.save(pe);
+            propertyDTO = propertyConverter.convertEntitytoDTO(pe);
+            return propertyDTO;
+        }
+        return null;
+    }
+
+    @Override
+    public PropertyDTO updateDescription(PropertyDTO propertyDTO, Long propertyID) {
+        Optional<PropertyEntity> propertyEntity = propertyRepository.findById(propertyID);
+        if(propertyEntity.isPresent()){
+            PropertyEntity pe = propertyEntity.get();
+            pe.setDescription(propertyDTO.getDescription());
+            propertyRepository.save(pe);
+            propertyDTO = propertyConverter.convertEntitytoDTO(pe);
+            return propertyDTO;
+        }
+        return null;
+    }
+
+    @Override
+    public PropertyDTO updateOwnerName(PropertyDTO propertyDTO, Long propertyID) {
+        Optional<PropertyEntity> propertyEntity = propertyRepository.findById(propertyID);
+        if(propertyEntity.isPresent()){
+            PropertyEntity pe = propertyEntity.get();
+            pe.setOwnerName(propertyDTO.getOwnerName());
+            propertyRepository.save(pe);
+            propertyDTO = propertyConverter.convertEntitytoDTO(pe);
+            return propertyDTO;
+        }
+        return null;
+    }
+
+    @Override
+    public PropertyDTO updateOwnerEmail(PropertyDTO propertyDTO, Long propertyID) {
+        Optional<PropertyEntity> propertyEntity = propertyRepository.findById(propertyID);
+        if(propertyEntity.isPresent()){
+            PropertyEntity pe = propertyEntity.get();
+            pe.setOwnerEmail(propertyDTO.getOwnerEmail());
+            propertyRepository.save(pe);
+            propertyDTO = propertyConverter.convertEntitytoDTO(pe);
+            return propertyDTO;
+        }
+        return null;
+    }
+
+    @Override
+    public PropertyDTO updateAddress(PropertyDTO propertyDTO, Long propertyID) {
+        Optional<PropertyEntity> propertyEntity = propertyRepository.findById(propertyID);
+        if(propertyEntity.isPresent()){
+            PropertyEntity pe = propertyEntity.get();
+            pe.setAddress(propertyDTO.getAddress());
+            propertyRepository.save(pe);
+            propertyDTO = propertyConverter.convertEntitytoDTO(pe);
+            return propertyDTO;
+        }
+        return null;
+    }
+
+    @Override
+    public PropertyDTO updatePrice(PropertyDTO propertyDTO, Long propertyID) {
+        Optional<PropertyEntity> propertyEntity = propertyRepository.findById(propertyID);
+        if(propertyEntity.isPresent()){
+            PropertyEntity pe = propertyEntity.get();
+            pe.setPrice(propertyDTO.getPrice());
+            propertyRepository.save(pe);
+            propertyDTO = propertyConverter.convertEntitytoDTO(pe);
+            return propertyDTO;
+        }
+        return null;
+    }
 }
