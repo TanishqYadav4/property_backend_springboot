@@ -1,10 +1,13 @@
 package com.mycompany.projectmanagement.controller;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.mycompany.projectmanagement.dto.PropertyDTO;
 import com.mycompany.projectmanagement.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController // this is the annotation for providing this JAVA class
                 // capabilities so that it can be used as a controller to provide API endpoints
@@ -31,5 +34,27 @@ public class PropertyController {
         propertyDTO = propertyService.saveProperty(propertyDTO);
         ResponseEntity<PropertyDTO> result = new ResponseEntity<>(propertyDTO, HttpStatus.CREATED);
         return result;
+    }
+
+    @GetMapping("/properties")
+    public ResponseEntity<List<PropertyDTO>> getAllProperties(){
+        List<PropertyDTO> allProperties = propertyService.getAllProperties();
+        ResponseEntity<List<PropertyDTO>> response = new ResponseEntity<>(allProperties,HttpStatus.OK);
+        return response;
+    }
+
+    @PutMapping("/properties/{id}")
+    public ResponseEntity<PropertyDTO> updateProperty( @RequestBody PropertyDTO propertyDTO ,
+                                @PathVariable("id") Long propertyID ){
+        propertyDTO = propertyService.updateProperty(propertyDTO,propertyID);
+        ResponseEntity<PropertyDTO> response = new ResponseEntity<>(propertyDTO,HttpStatus.CREATED);
+        return response;
+    }
+
+    @DeleteMapping("/properties/{id}")
+    public ResponseEntity<Void> deleteProperty(@PathVariable("id") Long propertyID ){
+        propertyService.deleteProperty(propertyID);
+        ResponseEntity<Void> response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return response;
     }
 }
