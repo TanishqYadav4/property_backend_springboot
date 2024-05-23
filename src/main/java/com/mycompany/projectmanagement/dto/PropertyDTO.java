@@ -10,8 +10,6 @@ public class PropertyDTO {
     private Long Id;
     private String title; //title of the property
     private String description; //description of the property
-    private String ownerName; //name of the owner of the property
-    private String ownerEmail; //email of the owner
     private String address; // address of the property
     private Double price; //price of the property
 

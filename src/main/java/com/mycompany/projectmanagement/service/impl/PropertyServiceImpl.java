@@ -50,8 +50,6 @@ public class PropertyServiceImpl implements PropertyService {
             PropertyEntity pe = propertyEntity.get();
             pe.setAddress(propertyDTO.getAddress());
             pe.setPrice(propertyDTO.getPrice());
-            pe.setOwnerName(propertyDTO.getOwnerName());
-            pe.setOwnerEmail(propertyDTO.getOwnerEmail());
             pe.setDescription(propertyDTO.getDescription());
             pe.setTitle(propertyDTO.getTitle());
             propertyRepository.save(pe);
@@ -85,32 +83,6 @@ public class PropertyServiceImpl implements PropertyService {
         if(propertyEntity.isPresent()){
             PropertyEntity pe = propertyEntity.get();
             pe.setDescription(propertyDTO.getDescription());
-            propertyRepository.save(pe);
-            propertyDTO = propertyConverter.convertEntitytoDTO(pe);
-            return propertyDTO;
-        }
-        return null;
-    }
-
-    @Override
-    public PropertyDTO updateOwnerName(PropertyDTO propertyDTO, Long propertyID) {
-        Optional<PropertyEntity> propertyEntity = propertyRepository.findById(propertyID);
-        if(propertyEntity.isPresent()){
-            PropertyEntity pe = propertyEntity.get();
-            pe.setOwnerName(propertyDTO.getOwnerName());
-            propertyRepository.save(pe);
-            propertyDTO = propertyConverter.convertEntitytoDTO(pe);
-            return propertyDTO;
-        }
-        return null;
-    }
-
-    @Override
-    public PropertyDTO updateOwnerEmail(PropertyDTO propertyDTO, Long propertyID) {
-        Optional<PropertyEntity> propertyEntity = propertyRepository.findById(propertyID);
-        if(propertyEntity.isPresent()){
-            PropertyEntity pe = propertyEntity.get();
-            pe.setOwnerEmail(propertyDTO.getOwnerEmail());
             propertyRepository.save(pe);
             propertyDTO = propertyConverter.convertEntitytoDTO(pe);
             return propertyDTO;

@@ -19,10 +19,6 @@ public class PropertyEntity {
     private String title;
     @Column(name = "PROPERTY_DESCRIPTION" , nullable = false)
     private String description;
-    @Column(name = "OWNER" , nullable = false)
-    private String ownerName;
-    @Column(name = "EMAIL" , nullable = false)
-    private String ownerEmail;
     @Column(name = "ADDRESS" , nullable = false)
     private String address;
     @Column(name = "PRICE" , nullable = false)

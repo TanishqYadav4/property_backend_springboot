@@ -11,8 +11,6 @@ public interface PropertyService {
 
     public PropertyDTO updateTitle(PropertyDTO propertyDTO, Long propertyId);
     public PropertyDTO updateDescription(PropertyDTO propertyDTO, Long propertyId);
-    public PropertyDTO updateOwnerName(PropertyDTO propertyDTO, Long propertyId);
-    public PropertyDTO updateOwnerEmail(PropertyDTO propertyDTO, Long propertyId);
     public PropertyDTO updateAddress(PropertyDTO propertyDTO, Long propertyId);
     public PropertyDTO updatePrice(PropertyDTO propertyDTO, Long propertyId);
 }
