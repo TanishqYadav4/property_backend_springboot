@@ -10,4 +10,7 @@ public interface UserRepository extends CrudRepository<UserEntity,Long> {
 
     @Query(value = "SELECT * FROM USER_TABLE WHERE OWNER_EMAIL = ?1 AND OWNER_PASSWORD = ?2" , nativeQuery = true)
     public Optional<UserEntity> findByOwnerNameAndOwnerPassword(String email, String password);
+
+    @Query(value = "SELECT * FROM USER_TABLE WHERE OWNER_EMAIL=?1" , nativeQuery = true )
+    public Optional<UserEntity> findByOwnerEmail(String email);
 }
