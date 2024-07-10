@@ -1,0 +1,101 @@
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Service;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
+
+@Service
+public class ExcelReportService {
+
+    public String generateExcelReport(List<MandateProductForReport> products, String filePath) throws IOException {
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Mandate Products");
+
+            // Create header row with the specified order
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("NWM Product Classification Name");
+            headerRow.createCell(1).setCellValue("Instrument Type");
+            headerRow.createCell(2).setCellValue("Asset Class");
+            headerRow.createCell(3).setCellValue("Legal Entities");
+            headerRow.createCell(4).setCellValue("Status");
+            headerRow.createCell(5).setCellValue("Modeled Product");
+            headerRow.createCell(6).setCellValue("NWM Product Classification ID");
+            headerRow.createCell(7).setCellValue("NWM Product Classification Version");
+            headerRow.createCell(8).setCellValue("NWM Product Description");
+
+            // Populate rows with data
+            int rowNum = 1;
+            for (MandateProductForReport product : products) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(product.getClassificationName());
+                row.createCell(1).setCellValue(product.getInstrumentType());
+                row.createCell(2).setCellValue(product.getAssetClass());
+                row.createCell(3).setCellValue(product.getLegalEntities().toString());
+                row.createCell(4).setCellValue(product.getStatus());
+                row.createCell(5).setCellValue(product.getModeledProduct());
+                row.createCell(6).setCellValue(product.getClassificationId());
+                row.createCell(7).setCellValue(product.getClassificationVersion());
+                row.createCell(8).setCellValue(product.getDescription());
+            }
+
+            // Write the output to file
+            try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+                workbook.write(fileOut);
+            }
+        }
+
+        return "Report generated successfully at: " + filePath;
+    }
+}
+
+
+
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+import java.util.List;
+
+@RestController
+public class MandateProductController {
+
+    private final TaxonomyService taxonomyService;
+    private final ExcelReportService excelReportService;
+
+    @Autowired
+    public MandateProductController(TaxonomyService taxonomyService, ExcelReportService excelReportService) {
+        this.taxonomyService = taxonomyService;
+        this.excelReportService = excelReportService;
+    }
+
+    @ApiOperation(value = "Get All Active NWR Products and associated attributes for mandates")
+    @RequestMapping(value = "/report", method = RequestMethod.GET, produces = "application/json")
+    @PreAuthorize("hasRole('IgnitePTF-Taxonomy-Read')")
+    public ResponseEntity<String> getMandateProductsForReport(@RequestHeader(value = "X-Request-Id", required = false) String requestId) {
+        LOGGER.info("Received request for mandate products with request id: {}", requestId);
+        List<MandateProductForReport> products = taxonomyService.getMandateProductsForReport();
+        LOGGER.info("Returning {} mandate products", products.size());
+
+        String filePath = "/path/to/your/excel/report.xlsx";
+        try {
+            String message = excelReportService.generateExcelReport(products, filePath);
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        } catch (IOException e) {
+            LOGGER.error("Error creating Excel report", e);
+            return new ResponseEntity<>("Error creating Excel report", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+}
